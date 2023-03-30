@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "epoch": "^0.1.0",
     "glob": "^9.3.2",
     "gray-matter": "^4.0.3",
     "markdown": "^0.5.0",

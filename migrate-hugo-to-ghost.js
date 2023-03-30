@@ -1,6 +1,11 @@
 // migrate-hugo-to-ghost.js
 //
 // Borrowed code from https://forum.ghost.org/t/migration-from-hugo-to-ghost/31674/8
+// That original code produced exports with mobiledoc: "markdown" elements that would not successfully
+// import, and there were no associated errors or warnings.  The markdown has to be legit, and I found
+// that this exporter was embedding `\n\n` and `\n` breaks inside the markdown.  I need to take steps
+// to replace all of the `\n\n` with `<p/>` and all remaining `\n` with `<br/>`.  Then the imports 
+// seem to work! 
 
 'use strict';
 
@@ -28,7 +33,9 @@ let ghostData = {
   }
 };
 
-
+function epoch (date) {
+  return Date.parse(date)
+}
 
 function getMatter(filePath) {
   let fileContent = String(fs.readFileSync(filePath));
@@ -60,9 +67,9 @@ function addUniqueTags(tags, index) {
 
   if (typeof tags === 'string') {
     addUniqueTag(tags);
-  } else if(typeof tags === 'object') {
-    tags.map(tag => addUniqueTag(tag));
-  }
+  } // else if(typeof tags === 'object') {
+  //  tags.map(tag => addUniqueTag(tag));
+  // }
 
 }
 
@@ -70,7 +77,9 @@ function createGhostPost(index, matter, filename) {
   let importUserId = 1;
   let post = {
     featured: 0,
-    status: 'draft',
+    page: 0,
+    status: 'published',
+    language: 'en_US',
     meta_description: matter.data.excerpt,
     author_id: matter.data.author,
     created_by: importUserId,
@@ -85,7 +94,8 @@ function createGhostPost(index, matter, filename) {
     slug: createSlug(filename),
     // markdown: matter.content,
     // html: markdown.toHTML(matter.content),
-    mobiledoc: "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"" + matter.content.replaceAll("\"","_").replaceAll("\\---","---") + "\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
+    // MM added two .replaceAll clauses to the line below
+    mobiledoc: "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"" + matter.content.replaceAll("\"","_").replaceAll("\n\n","<p/>").replaceAll("\n","<br/>").replaceAll("\\---","---") + "\"}]],\"markups\":[],\"sections\":[[10,0],[1,\"p\",[]]]}",
     image: matter.data.images ? matter.data.images.title : null,
     meta_title: matter.data.title,
     created_at: createDate(filename),
@@ -110,38 +120,40 @@ function createPostsTags(postId, tagId){
   ghostData.data.posts_tags.push({post_id:postId, tag_id:tagId});
 }
 
-function directoryFiles(error, mdFilesInDirectory){
-  return console.log(mdFilesInDirectory);
-}
-
-
 
 function convert(src, dest){
-  glob(src + '/**/*.md', directoryFiles);
-  }
+  fs.readdir(src, (err, filenames) => {
+    if (err)
+      console.log(err);
+    else {
+      filenames.forEach((filename, index) => {
+        let filePath = path.join(src, filename);
+        let matter = getMatter(filePath);
+        matterList.push(matter);
 
-    // files.forEach((filePath, index) => {
-    //   let matter = getMatter(filePath);
-    //   matterList.push(matter);
-  
-    //   let ghostPost = createGhostPost(index, matter, filename);
-    //   ghostData.data.posts.push(ghostPost);
-    //   addUniqueTags(matter.data.tags, index);
-  
-    //   tagList.forEach((tag, i) => {
-    //     let ghostTag = createGhostTag(i, tag);
-    //     ghostData.data.tags.push(ghostTag);
-    //   });
-  
-    //   createPostsTags();
-    //   fs.writeFile(dest, JSON.stringify(ghostData), err => err ? console.error(err) : process.exit(0));
-    // });
+        let ghostPost = createGhostPost(index, matter, filename);
+        
+        // MM code: 2 lines
+        ghostPost.published_at = epoch(matter.data.publishDate);
+        // ghostPost.custom_excerpt = "---\ntype: micropost\nlocation: " + matter.data.location + "\n---";
 
+        ghostData.data.posts.push(ghostPost);
+        addUniqueTags(matter.data.tags, index);
+      });
 
+      tagList.forEach((tag, i) => {
+        let ghostTag = createGhostTag(i, tag);
+        ghostData.data.tags.push(ghostTag);
+      });
+
+      createPostsTags();
+      fs.writeFile(dest, JSON.stringify(ghostData), err => err ? console.error(err) : process.exit(0));
+    }  
+  });
+}
 
 if ( process.argv.length < 4) {
-  console.error('argv.length is less than 4. argv[] is ', argv);
-  console.error('You need to specify a path to your posts.');
+  console.error('You need to specify a path to your .md posts.');
 } else {
   let src = process.argv[2];
   let dest = process.argv[3];
