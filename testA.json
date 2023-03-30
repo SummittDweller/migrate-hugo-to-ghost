@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "exported_on": 1680139602552,
+    "version": "5.39.0"
+  },
+  "data": {
+    "posts": [
+      {
+        "id": "6",
+        "uuid": "18362a4d-3ca5-4011-8236-6d926db2d8f3",
+        "title": "This is IMPORTED testA",
+        "slug": "this-is-imported-testA",
+        "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"This is a MARKDOWN card created in the editor interface.  NOT imported!\"}],[\"hr\",{}],[\"hr\",{}],[\"html\",{\"html\":\"This is an HTML card created in the editor interface.  NOT imported!\"}],[\"callout\",{\"calloutEmoji\":\"💡\",\"calloutText\":\"This is a CALLOUT TEXT card.\",\"backgroundColor\":\"red\"}]],\"markups\":[],\"sections\":[[10,0],[10,1],[1,\"p\",[[0,[],0,\"This is a non-MARKDOWN and non-HTML card created in the editor interface.  NOT imported!\"]]],[10,2],[10,3],[10,4],[1,\"p\",[]]],\"ghostVersion\":\"4.0\"}",
+        "lexical": null,
+        "comment_id": "6424aae4fe4245075fa55908",
+        "feature_image": null,
+        "featured": 1,
+        "type": "post",
+        "status": "published",
+        "locale": null,
+        "visibility": "public",
+        "email_recipient_filter": "all",
+        "custom_excerpt": "This is the EXCERPT from my test post. Removed the created, updated, published_at records."
+      }
+    ]
+  }
+}

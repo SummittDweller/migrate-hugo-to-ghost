@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "exported_on": 1680139602552,
+    "version": "5.39.0"
+  },
+  "data": {
+    "posts": [
+      {
+        "id": "1",
+        "uuid": "18362a4d-3ca5-4011-8236-6d926db2d8f3",
+        "title": "This is an IMPORTED Test",
+        "slug": "this-is-an-imported-test",
+        "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"markdown\",{\"markdown\":\"This is a MARKDOWN card created in the editor interface.  NOT imported!\"}],[\"hr\",{}],[\"hr\",{}],[\"html\",{\"html\":\"This is an HTML card created in the editor interface.  NOT imported!\"}],[\"callout\",{\"calloutEmoji\":\"💡\",\"calloutText\":\"This is a CALLOUT TEXT card.\",\"backgroundColor\":\"red\"}]],\"markups\":[],\"sections\":[[10,0],[10,1],[1,\"p\",[[0,[],0,\"This is a non-MARKDOWN and non-HTML card created in the editor interface.  NOT imported!\"]]],[10,2],[10,3],[10,4],[1,\"p\",[]]],\"ghostVersion\":\"4.0\"}",
+        "lexical": null,
+        "html": "<!--kg-card-begin: markdown--><p>This is a MARKDOWN card created in the editor interface.  NOT imported!</p>\n<!--kg-card-end: markdown--><hr><p>This is a non-MARKDOWN and non-HTML card created in the editor interface.  NOT imported!</p><hr><!--kg-card-begin: html-->This is an HTML card created in the editor interface.  NOT imported!<!--kg-card-end: html--><div class=\"kg-card kg-callout-card kg-callout-card-red\"><div class=\"kg-callout-emoji\">💡</div><div class=\"kg-callout-text\">This is a CALLOUT TEXT card.</div></div>",
+        "comment_id": "6424aae4fe4245075fa55908",
+        "plaintext": "This is a MARKDOWN card created in the editor interface. NOT imported!\n\n\nThis is a non-MARKDOWN and non-HTML card created in the editor interface.  NOT imported!\n\nThis is an HTML card created in the editor interface. NOT imported!💡This is a CALLOUT TEXT card.",
+        "feature_image": null,
+        "featured": 1,
+        "type": "post",
+        "status": "published",
+        "locale": null,
+        "visibility": "public",
+        "email_recipient_filter": "all",
+        "created_at": "2023-03-29T21:17:24.000Z",
+        "updated_at": "2023-03-30T01:26:02.000Z",
+        "published_at": "2023-03-29T21:17:40.000Z",
+        "custom_excerpt": "This is the EXCERPT from my test post.",
+        "codeinjection_head": null,
+        "codeinjection_foot": null,
+        "custom_template": null,
+        "canonical_url": null,
+        "newsletter_id": null
+      }
+    ]
+  }
+}
